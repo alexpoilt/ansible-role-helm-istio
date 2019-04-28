@@ -8,9 +8,12 @@ Variables
 
 Variables default this role for access on kiali and namespace deploy kiali:
 ```yml
+version_istio: 1.1.3
+path_files_yml: /opt/k8syml
 user_kiali: admin
 pass_kiali: admin
 namespace_kiali: istio-system
+kiali_install: false
 ```
 
 Linki default for download helm and kiali:
