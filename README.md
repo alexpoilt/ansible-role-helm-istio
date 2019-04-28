@@ -1,48 +1,44 @@
-Role Name
-=========
+Role install helm and istio
+==============
 
-A brief description of the role goes here.
+This role install and configure helm, istio and initialize kiali on cluster kubernetes
 
-Requirements
-------------
+Variables
+---------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+Variables default this role for access on kiali and namespace deploy kiali:
+```yml
+user_kiali: admin
+pass_kiali: admin
+namespace_kiali: istio-system
+```
 
-Role Variables
---------------
+Linki default for download helm and kiali:
+```yml
+_link_helm: https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz
+_link_istio: "https://github.com/istio/istio/releases/download/{{ version_istio }}/istio-{{ version_istio }}-linux.tar.gz"
+```
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+If you want change this is values, set on your playbook or files of variables ansible. Example:
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: asible-role-helm-istio, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+```yml
+---
+- hosts: server
+  vars:
+    user_kiali: <some-value>
+    pass_kiali: <some-value>
+    namespace_kiali: <some-value>
+  ...
+  roles:
+    - ansible-role-helm-istio
+```
+This role install too kiali, if you don't install kiali, set variable kiali_install with false:
+```yml
+- hosts: server
+  vars:
+  ...
+    kiali_install: false
+  ...
+  roles:
+    - ansible-role-helm-istio
+```
