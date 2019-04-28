@@ -1,0 +1,16 @@
+---
+# defaults file for asible-role-helm-istio
+
+version_istio: 1.1.3
+
+# path include files yml for deployment
+path_files_yml: /opt/k8syml
+
+# var kiali secrets
+user_kiali: admin
+pass_kiali: admin
+namespace_kiali: istio-system
+
+# links download package istio and helm
+_link_helm: https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz
+_link_istio: "https://github.com/istio/istio/releases/download/{{ version_istio }}/istio-{{ version_istio }}-linux.tar.gz"

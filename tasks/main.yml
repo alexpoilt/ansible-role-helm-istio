@@ -1,0 +1,13 @@
+---
+
+- name: verify if cluster k8s started, if true configure helm and istio
+  block:
+    - name: get list package installed
+      shell: kubectl get pods
+
+    - include: helm.yml
+    - include: istio.yml
+  rescue:
+    - name: not package kubeadm instaled,
+      debug:
+        msg: "Fail, your cluster k8s not runnining"
