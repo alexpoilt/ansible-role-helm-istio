@@ -1,6 +1,4 @@
 ---
-# defaults file for asible-role-helm-istio
-
 version_istio: 1.1.3
 
 # path include files yml for deployment

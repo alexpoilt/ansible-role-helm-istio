@@ -28,7 +28,7 @@
 
 - name: add file gw and vs kiali
   copy:
-    src: kiali.yml
+    src: kiali.yml.kb
     dest: "{{ path_files_yml }}/kiali.yml"
 
 - name: deploy gw and vs kiali

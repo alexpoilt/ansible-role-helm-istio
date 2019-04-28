@@ -4,26 +4,25 @@
   unarchive:
     src: '{{ _link_helm }}'
     dest: /tmp/helm
-    remote_src: yes
+    remote_src: true
 
 - name: move files to path linux
   copy:
     src: "{{ item.file_src }}"
     dest: "{{ item.file_dest }}"
-    remote_src: yes
+    remote_src: true
   with_items:
     - {file_src: /tmp/helm/helm, file_dest: /usr/local/bin/helm}
     - {file_src: /tmp/helm/tiller, file_dest: /usr/local/bin/tiller}
 
 - name: init helm
-  shell: helm init
+  command: helm init
 
 - name: create serviceaccount k8s
-  shell: kubectl create serviceaccount --namespace=kube-system tiller
+  command: kubectl create serviceaccount --namespace=kube-system tiller
 
 - name: create clusterrolebinding k8s
-  shell: kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+  command: kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
 - name: deploy patch tiller
-  shell: kubectl patch deployments -n kube-system tiller-deploy -p \'{\"spec\":{\"template\":{\"spec\":{\"serviceAccount\":\"tiller\"}}}}\'
-
+  command: kubectl patch deployments -n kube-system tiller-deploy -p \'{\"spec\":{\"template\":{\"spec\":{\"serviceAccount\":\"tiller\"}}}}\'

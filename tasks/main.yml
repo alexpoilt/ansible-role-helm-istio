@@ -3,7 +3,7 @@
 - name: verify if cluster k8s started, if true configure helm and istio
   block:
     - name: get list package installed
-      shell: kubectl get pods
+      command: kubectl get pods
 
     - include: helm.yml
     - include: istio.yml

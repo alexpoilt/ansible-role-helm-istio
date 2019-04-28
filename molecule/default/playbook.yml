@@ -1,5 +1,6 @@
 ---
 - name: Converge
   hosts: all
+  become: true
   roles:
-    - role: asible-role-helm-istio
+    - ansible-role-helm-istio
