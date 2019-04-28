@@ -1,0 +1,38 @@
+---
+
+- name: create path files yml
+  file:
+    path: '{{ path_files_yml }}'
+    state: directory
+    mode: 0755
+
+- name: add file secrets kiali
+  template:
+    src: kiali-secrets.yml.j2
+    dest: "{{ path_files_yml }}kiali-secrets.yml"
+
+- name: create secrets kiali
+  shell: "kubectl apply -f {{ path_files_yml }}/kiali-secrets.yml >> {{ path_files_yml }}/kube-apply.log"
+  args:
+    chdir: "{{ path_files_yml }}"
+    creates: kube-apply.log
+
+- name: set enable kiali in istio
+  shell: "helm template --set kiali.enabled=true /opt/istio/install/kubernetes/helm/istio --name istio --namespace istio-system > {{ path_files_yml }}/istio.yaml"
+  args:
+    chdir: "{{ path_files_yml }}"
+    creates: istio.yaml
+
+- name: up service kiali
+  shell: "kubectl apply -f {{ path_files_yml }}/istio.yaml >> {{ path_files_yml }}/kube-apply.log"
+
+- name: add file gw and vs kiali
+  copy:
+    src: kiali.yml
+    dest: "{{ path_files_yml }}/kiali.yml"
+
+- name: deploy gw and vs kiali
+  shell: "kubectl apply -f {{ path_files_yml }}/kiali.yml >> {{ path_files_yml }}/kube-apply.log"
+
+- name: add istio injection namespace default
+  shell: kubectl label namespace default istio-injection=enabled

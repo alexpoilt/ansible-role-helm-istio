@@ -10,6 +10,7 @@ path_files_yml: /opt/k8syml
 user_kiali: admin
 pass_kiali: admin
 namespace_kiali: istio-system
+install_kiali: true
 
 # links download package istio and helm
 _link_helm: https://storage.googleapis.com/kubernetes-helm/helm-v2.13.1-linux-amd64.tar.gz
